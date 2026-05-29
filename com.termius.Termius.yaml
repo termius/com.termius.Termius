@@ -1,15 +1,15 @@
 id: com.termius.Termius
 runtime: org.freedesktop.Platform
-runtime-version: "25.08"
+runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 base: org.electronjs.Electron2.BaseApp
-base-version: "25.08"
+base-version: '25.08'
 command: termius
 separate-locales: false
 
 finish-args:
   - --share=ipc
-  - --socket=fallback-x11
+  - --socket=x11
   - --socket=wayland
   - --share=network
   - --socket=pulseaudio
@@ -70,12 +70,28 @@ modules:
       - type: script
         dest-filename: termius.sh
         commands:
-          - exec zypak-wrapper.sh /app/termius/termius-app --ozone-platform-hint=auto "$@"
+          - exec zypak-wrapper.sh "/app/termius/termius flatpak-potato" --ozone-platform=x11
+            "$@"
       - type: archive
-        path: ../termius-desktop/packages/app/dist/linux-tar/Termius-x64.tar.gz
-        sha256: 42da821eee0e8142621e49849dce9ce9665a426df3c2fd1b8203a08008fcc7a5
+        url: https://autoupdate.termius.com/canary/custom-build/flatpak-potato/linux-tar/Termius%20flatpak-potato-9.39.0-x64.tar.gz
+        sha512: 5f791eb8228b58499a11d6cdf90646712ae922567a98da88df6d4f84e7b3bbed3907aadf46b75dbb43db9bd296584ac64462b2ca3602710694381d8cb332d8c6
+        strip-components: 1
         only-arches: [x86_64]
+        x-checker-data:
+          type: json
+          url: https://autoupdate.termius.com/canary/custom-build/flatpak-potato/linux-tar/flatpak-checker-data.json
+          version-query: .version
+          url-query: .url
+          release-url-template: https://docs.termius.com/changelog#id-$version
+          is-main-source: true
       - type: archive
-        path: ../termius-desktop/packages/app/dist/linux-tar/Termius-arm64.tar.gz
-        sha256: 0857cd8fe5342a6e4c1bc5e841189e65eb15fcd1bac66547703b80f111d625c4
+        url: https://autoupdate.termius.com/canary/custom-build/flatpak-potato/linux-tar-arm64/Termius%20flatpak-potato-9.39.0-arm64.tar.gz
+        sha512: 2021ee94355539c053b6a10227f6b7a6511f5b02a5248a384b3895de4e96758937c62e6e07439a3be2bd80a8fcd489856421736d8c88ed6879b702e38a42255e
+        strip-components: 1
         only-arches: [aarch64]
+        x-checker-data:
+          type: json
+          url: https://autoupdate.termius.com/canary/custom-build/flatpak-potato/linux-tar-arm64/flatpak-checker-data.json
+          version-query: .version
+          url-query: .url
+          release-url-template: https://docs.termius.com/changelog#id-$version

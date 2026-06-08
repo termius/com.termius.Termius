@@ -1,9 +1,9 @@
 id: com.termius.Termius
 runtime: org.freedesktop.Platform
-runtime-version: '25.08'
+runtime-version: "25.08"
 sdk: org.freedesktop.Sdk
 base: org.electronjs.Electron2.BaseApp
-base-version: '25.08'
+base-version: "25.08"
 command: termius
 separate-locales: false
 
@@ -70,7 +70,7 @@ modules:
       - type: script
         dest-filename: termius.sh
         commands:
-          - exec zypak-wrapper.sh "/app/termius/termius flatpak-potato" --ozone-platform=x11
+          - exec zypak-wrapper.sh "/app/termius/termius-app" --ozone-platform=x11
             "$@"
       - type: archive
         url: https://autoupdate.termius.com/canary/custom-build/flatpak-potato/linux-tar/Termius%20flatpak-potato-9.39.0-x64.tar.gz

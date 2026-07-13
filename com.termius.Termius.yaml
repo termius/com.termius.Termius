@@ -15,7 +15,7 @@ finish-args:
   - --socket=pulseaudio
   - --device=all # FIDO2 (/dev/hidraw*) and serial ports (/dev/ttyUSB*, /dev/ttyACM*); no granular permissions exist yet
   - --socket=ssh-auth
-  - --filesystem=host
+  - --filesystem=host-root
   - --filesystem=xdg-config/termius:create
   - --filesystem=xdg-data/termius:create
   - --filesystem=xdg-download

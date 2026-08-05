@@ -7,4 +7,4 @@ Icon=com.termius.Termius
 StartupWMClass=Termius
 Comment=Desktop SSH Client
 MimeType=x-scheme-handler/termius;x-scheme-handler/ssh;
-Categories=Utility;
+Categories=Network;RemoteAccess;

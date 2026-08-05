@@ -9,17 +9,31 @@ separate-locales: false
 
 finish-args:
   - --share=ipc
-  - --socket=x11
-  - --socket=wayland
   - --share=network
+  # Electron is launched with --ozone-platform=x11, so XWayland is required.
+  # Do not add --socket=wayland alongside this: flatpak-builder-lint rejects the
+  # combination, and --socket=fallback-x11 would withhold X11 on Wayland sessions
+  # and break the forced x11 backend.
+  - --socket=x11
   - --socket=pulseaudio
-  - --device=all # FIDO2 (/dev/hidraw*) and serial ports (/dev/ttyUSB*, /dev/ttyACM*); no granular permissions exist yet
+  # Reuse the user's running ssh-agent instead of asking for key passphrases again.
   - --socket=ssh-auth
-  - --filesystem=host-root
-  - --filesystem=xdg-config/termius:create
-  - --filesystem=xdg-data/termius:create
-  - --filesystem=xdg-download
+  # FIDO2 security keys (/dev/hidraw*) and serial consoles (/dev/ttyUSB*,
+  # /dev/ttyACM*). Neither is covered by --device=usb or --device=input, so there
+  # is no granular alternative yet.
+  - --device=all
+  # Termius is a terminal emulator: its purpose is to run the commands the user
+  # types, including on the local machine, which it does via host-spawn. The
+  # sandbox cannot meaningfully confine that, so these two are inherent to the app
+  # rather than incidental.
   - --talk-name=org.freedesktop.Flatpak
+  # Local shell working directories, SFTP browsing of local files and importing
+  # existing ~/.ssh keys all need host paths at their real locations, which is what
+  # `host` provides. `host-root` additionally exposes / (including /etc and /usr) at
+  # /run/host/root, but it was only added in flatpak 1.17 and is silently ignored on
+  # older hosts, so it cannot be relied on as the only filesystem permission.
+  - --filesystem=host
+  - --filesystem=host-root
   - --talk-name=org.freedesktop.secrets
   - --talk-name=org.freedesktop.Notifications
   - --env=TERMIUS_OFFICIAL_FLATPAK=1
@@ -60,7 +74,7 @@ modules:
       - install -Dm644 $FLATPAK_ID.png -t $FLATPAK_DEST/share/icons/hicolor/512x512/apps
       - install -Dm644 $FLATPAK_ID.desktop -t $FLATPAK_DEST/share/applications
       - install -Dm755 termius.sh $FLATPAK_DEST/bin/termius
-      - cp -a . $FLATPAK_DEST/termius
+      - cp -a termius $FLATPAK_DEST/termius
     sources:
       - type: file
         path: com.termius.Termius.metainfo.xml
@@ -77,6 +91,7 @@ modules:
         url: https://autoupdate.termius.com/canary/custom-build/flatpak-potato/linux-tar/Termius%20flatpak-potato-9.39.0-x64.tar.gz
         sha512: 5f791eb8228b58499a11d6cdf90646712ae922567a98da88df6d4f84e7b3bbed3907aadf46b75dbb43db9bd296584ac64462b2ca3602710694381d8cb332d8c6
         strip-components: 1
+        dest: termius
         only-arches: [x86_64]
         x-checker-data:
           type: json
@@ -89,6 +104,7 @@ modules:
         url: https://autoupdate.termius.com/canary/custom-build/flatpak-potato/linux-tar-arm64/Termius%20flatpak-potato-9.39.0-arm64.tar.gz
         sha512: 2021ee94355539c053b6a10227f6b7a6511f5b02a5248a384b3895de4e96758937c62e6e07439a3be2bd80a8fcd489856421736d8c88ed6879b702e38a42255e
         strip-components: 1
+        dest: termius
         only-arches: [aarch64]
         x-checker-data:
           type: json

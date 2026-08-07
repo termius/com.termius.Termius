@@ -19,6 +19,7 @@
   </screenshots>
   <categories>
     <category>Network</category>
+    <category>RemoteAccess</category>
   </categories>
   <releases>
     <release version="9.43.1" date="2026-08-12">

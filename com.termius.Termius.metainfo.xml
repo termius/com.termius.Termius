@@ -3,7 +3,9 @@
   <id>com.termius.Termius</id>
   <name>Termius</name>
   <project_license>LicenseRef-proprietary=https://termius.com/terms-of-use</project_license>
-  <developer_name>Termius Corporation</developer_name>
+  <developer id="com.termius">
+    <name>Termius Corporation</name>
+  </developer>
   <summary>Modern SSH client for Linux</summary>
   <metadata_license>CC0-1.0</metadata_license>
   <launchable type="desktop-id">com.termius.Termius.desktop</launchable>
@@ -14,6 +16,7 @@
   </description>
   <screenshots>
     <screenshot type="default">
+      <caption>Organize saved hosts and groups in the Termius host list</caption>
       <image>https://assets-global.website-files.com/5c7036349b5477bf13f828cf/6448527bc398649091c20439_linux.png</image>
     </screenshot>
   </screenshots>

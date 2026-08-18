@@ -18,8 +18,8 @@ finish-args:
   - --filesystem=host-root
   - --filesystem=xdg-download
   - --talk-name=org.freedesktop.Flatpak
-  - --talk-name=org.freedesktop.secrets
-  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.freedesktop.portal.Notification
+  - --talk-name=org.freedesktop.portal.Secret
   - --env=TERMIUS_OFFICIAL_FLATPAK=1
 
 modules:

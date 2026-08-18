@@ -16,7 +16,6 @@ finish-args:
   - --socket=ssh-auth
   - --filesystem=host
   - --filesystem=host-root
-  - --filesystem=xdg-download
   - --talk-name=org.freedesktop.Flatpak
   - --env=TERMIUS_OFFICIAL_FLATPAK=1
 
